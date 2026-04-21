@@ -11,29 +11,11 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
-// Allowed frontend origins - Used to permit requests only from trusted client applications
-const allowedOrigins = [
-    process.env.CLIENT_URL,
-    "https://expense-tracker-rho-sable.vercel.app",
-];
-
-// Middleware to handle CORS - Allows frontend application to communicate with backend API
+// Middleware to handle CORS - Temporarily allows requests from any origin for deployment testing
 app.use(
     cors({
-        // Check whether incoming request origin is allowed
-        origin: function (origin, callback) {
-            // Allow requests with no origin (e.g. Postman, server-to-server requests)
-            // or requests coming from one of the allowed frontend URLs
-            if (!origin || allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            }
-            // Reject requests coming from unapproved origins
-            return callback(new Error("Not allowed by CORS"));
-        },
         origin: "*",
-        // Allowed HTTP methods for cross-origin requests
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        // Allowed request headers sent by the client
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
