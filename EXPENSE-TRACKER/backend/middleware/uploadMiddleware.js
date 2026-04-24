@@ -1,25 +1,27 @@
-const multer = require('multer');
+const multer = require("multer");
 
-// Configure disk storage for uploaded files with timestamp and original filename
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    },
-});
+// Store uploaded image in memory instead of writing it to local disk.
+// This works better on Vercel, because serverless functions should not rely on local file storage.
+const storage = multer.memoryStorage();
 
 // File filter - Only allows JPEG, PNG and JPG image formats
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error('Only .jpeg, .png and .jpg formats are allowed'), false);
+        cb(new Error("Only .jpeg, .png and .jpg formats are allowed"), false);
     }
 };
 
-const upload = multer({ storage, fileFilter });
+// Multer upload configuration - Keeps file in memory and limits file size to 2MB
+const upload = multer({
+    storage,
+    fileFilter,
+    limits: {
+        fileSize: 2 * 1024 * 1024,
+    },
+});
 
 module.exports = upload;
