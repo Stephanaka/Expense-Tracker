@@ -1,4 +1,3 @@
-
 const xlsx = require("xlsx");
 const Expense = require("../models/Expense");
 
@@ -11,6 +10,10 @@ const currencyOptions = [
     { code: "INR", symbol: "₹", rate: 83.74 },
 ];
 
+// Maximum allowed amount and date for expense records
+const MAX_AMOUNT = 1000000000000;
+const MAX_DATE = new Date("2070-12-31");
+
 // Add Expense - Validates input and creates a new expense record with category, amount, date, and icon
 exports.addExpense = async (req, res) => {
     const userId = req.user.id;
@@ -21,6 +24,20 @@ exports.addExpense = async (req, res) => {
         // Validate all required fields are present
         if (!category || !amount || !date) {
             return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // Validate amount does not exceed the allowed maximum value
+        if (Number(amount) > MAX_AMOUNT) {
+            return res.status(400).json({
+                message: "Сумата не може да бъде по-голяма от 1 трилион.",
+            });
+        }
+
+        // Validate date does not exceed the allowed maximum date
+        if (new Date(date) > MAX_DATE) {
+            return res.status(400).json({
+                message: "Датата не може да бъде след 31.12.2070 г.",
+            });
         }
 
         const newExpense = new Expense({
