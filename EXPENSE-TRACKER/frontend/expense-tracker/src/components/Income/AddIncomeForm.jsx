@@ -3,7 +3,7 @@ import Input from "../Inputs/Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
 
 // Maximum allowed amount and date for income entries
-const MAX_AMOUNT = 1000000000000;
+const MAX_AMOUNT = 1000000000;
 const MAX_DATE = "2070-12-31";
 
 // Form component - Collects income data (source, amount, date, icon) for adding new income
@@ -26,7 +26,7 @@ const AddIncomeForm = ({onAddIncome}) => {
         setError("");
 
         if (Number(income.amount) > MAX_AMOUNT) {
-            setError("Сумата не може да бъде по-голяма от 1 трилион.");
+            setError("Сумата не може да бъде по-голяма от 1 милиард.");
             return;
         }
 
