@@ -1,4 +1,3 @@
-
 const xlsx = require("xlsx");
 const Income = require("../models/Income");
 
@@ -11,6 +10,10 @@ const currencyOptions = [
     { code: "INR", symbol: "₹", rate: 83.74 },
 ];
 
+// Maximum allowed amount and date for income records
+const MAX_AMOUNT = 1000000000000;
+const MAX_DATE = new Date("2070-12-31");
+
 // Add Income - Validates input and creates a new income record with source, amount, date, and icon
 exports.addIncome = async (req, res) => {
     const userId = req.user.id;
@@ -21,6 +24,20 @@ exports.addIncome = async (req, res) => {
         // Validate all required fields are present
         if (!source || !amount || !date) {
             return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // Validate amount does not exceed the allowed maximum value
+        if (Number(amount) > MAX_AMOUNT) {
+            return res.status(400).json({
+                message: "Сумата не може да бъде по-голяма от 1 трилион.",
+            });
+        }
+
+        // Validate date does not exceed the allowed maximum date
+        if (new Date(date) > MAX_DATE) {
+            return res.status(400).json({
+                message: "Датата не може да бъде след 31.12.2070 г.",
+            });
         }
 
         const newIncome = new Income({
