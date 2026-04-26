@@ -11,7 +11,7 @@ const currencyOptions = [
 ];
 
 // Maximum allowed amount and date for expense records
-const MAX_AMOUNT = 1000000000000;
+const MAX_AMOUNT = 1000000000;
 const MAX_DATE = new Date("2070-12-31");
 
 // Add Expense - Validates input and creates a new expense record with category, amount, date, and icon
@@ -29,7 +29,7 @@ exports.addExpense = async (req, res) => {
         // Validate amount does not exceed the allowed maximum value
         if (Number(amount) > MAX_AMOUNT) {
             return res.status(400).json({
-                message: "Сумата не може да бъде по-голяма от 1 трилион.",
+                message: "Сумата не може да бъде по-голяма от 1 милиард.",
             });
         }
 
