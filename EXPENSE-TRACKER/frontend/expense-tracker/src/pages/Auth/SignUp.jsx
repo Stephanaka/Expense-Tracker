@@ -112,7 +112,7 @@ const SignUp = () => {
         <form onSubmit={handleSignUp}>
           <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="col-span-1">
               <Input
                 value={fullName}
@@ -133,7 +133,7 @@ const SignUp = () => {
               />
             </div>
 
-            <div className="col-span-1 md:col-span-2">
+            <div className="col-span-1 lg:col-span-2">
               <Input
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}
@@ -143,7 +143,7 @@ const SignUp = () => {
               />
             </div>
 
-            <div className="col-span-1 md:col-span-2">
+            <div className="col-span-1 lg:col-span-2">
               <Input
                 value={confirmPassword}
                 onChange={({ target }) => setConfirmPassword(target.value)}
