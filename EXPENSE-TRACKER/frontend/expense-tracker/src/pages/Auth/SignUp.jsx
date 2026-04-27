@@ -13,13 +13,13 @@ import uploadImage from "../../utils/uploadImage";
 
 // SignUp page - Creates new user account with validation, profile photo upload, and password confirmation
 const SignUp = () => {
-  const[profilePic, setProfilePic] = useState(null);
-  const[fullName, setFullName] = useState("");
-  const[email , setEmail] = useState("");
-  const[password , setPassword] = useState("");
-  const[confirmPassword , setConfirmPassword] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const[error , setError] = useState(null);
+  const [error, setError] = useState(null);
   
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -29,37 +29,37 @@ const SignUp = () => {
     e.preventDefault();
 
     // Validate full name field is not empty
-    if(!fullName){
+    if (!fullName) {
       setError("Моля, въведете вашето име");
       return;
     }
 
     // Validate email format using regex helper function
-    if(!validateEmail(email)){
+    if (!validateEmail(email)) {
       setError("Моля, въведете валиден имейл адрес");
       return;
     }
 
     // Validate password field is not empty
-    if(!password){
+    if (!password) {
       setError("Моля, въведете парола");
       return;
     }
 
     // Validate password meets minimum length requirement for security
-    if(password.length < 8){
+    if (password.length < 8) {
       setError("Паролата трябва да е минимум 8 символа");
       return;
     }
 
     // Validate confirmation password field is not empty
-    if(!confirmPassword){
+    if (!confirmPassword) {
       setError("Моля, потвърдете паролата");
       return;
     }
 
     // Verify both password fields match exactly
-    if(password !== confirmPassword){
+    if (password !== confirmPassword) {
       setError("Паролите не съвпадат");
       return;
     }
@@ -73,7 +73,7 @@ const SignUp = () => {
       let profileImageUrl = "";
 
       //Upload image if present
-      if(profilePic){
+      if (profilePic) {
         const imgUploadRes = await uploadImage(profilePic);
         profileImageUrl = imgUploadRes.imageUrl || "";
       }
@@ -101,59 +101,58 @@ const SignUp = () => {
     }
   };
 
-
   return (
     <AuthLayout>
-      <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-10 flex flex-col justify-center">
+      <div className="w-full h-auto md:h-full mt-10 md:mt-10 flex flex-col justify-center">
         <h3 className="text-xl font-semibold text-black">Създайте профил</h3>
-        <p className="text-xs tex-slate-700 mt-[5px] mb-6">
+        <p className="text-xs text-slate-700 mt-[5px] mb-6">
           Присъединете се към нас, като въведете своите данни по-долу.
         </p>
 
         <form onSubmit={handleSignUp}>
-
           <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
-
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              value={fullName}
-              onChange={({ target }) => setFullName(target.value) }
-              label="Пълно име"
-              placeholder="Иван"
-              type="text"
-            /> 
+            <div className="col-span-1">
+              <Input
+                value={fullName}
+                onChange={({ target }) => setFullName(target.value)}
+                label="Пълно име"
+                placeholder="Иван"
+                type="text"
+              />
+            </div>
 
-            <Input
-              value={email}
-              onChange = {({ target }) => setEmail(target.value)}
-              label="Имейл адрес"
-              placeholder="john@example.com"
-              type="text"
-            />
+            <div className="col-span-1">
+              <Input
+                value={email}
+                onChange={({ target }) => setEmail(target.value)}
+                label="Имейл адрес"
+                placeholder="john@example.com"
+                type="text"
+              />
+            </div>
 
-          <div className="col-span-2">
-            <Input
-              value={password}
-              onChange = {({ target }) => setPassword(target.value)}
-              label="Парола"
-              placeholder="Минимум 8 символа"
-              type="password"
-            />
+            <div className="col-span-1 md:col-span-2">
+              <Input
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
+                label="Парола"
+                placeholder="Минимум 8 символа"
+                type="password"
+              />
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+              <Input
+                value={confirmPassword}
+                onChange={({ target }) => setConfirmPassword(target.value)}
+                label="Потвърждение на парола"
+                placeholder="Потвърдете паролата"
+                type="password"
+              />
+            </div>
           </div>
-
-          <div className="col-span-2">
-            <Input
-              value={confirmPassword}
-              onChange = {({ target }) => setConfirmPassword(target.value)}
-              label="Потвърждение на парола"
-              placeholder="Потвърдете паролата"
-              type="password"
-            />
-          </div>
-          </div>
-
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
           
@@ -171,6 +170,6 @@ const SignUp = () => {
       </div>
     </AuthLayout>
   );
-}
+};
 
 export default SignUp;
